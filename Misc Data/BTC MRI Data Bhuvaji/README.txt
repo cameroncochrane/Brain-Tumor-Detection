@@ -1,3 +1,0 @@
-Brain Tumor Classification (MRI)
-
-Source:https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri
