@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 from data_import import *
 ##################################################################################################
 
-raw_df = load_images_to_df('Data', 'BTC MRI Data Bhuvaji')#Load raw data into a single df
+raw_df = load_images_to_df('data', 'BTC MRI Data Bhuvaji')#Load raw data into a single df
 data = raw_df.drop(['split','path'],axis=1) #Drop unecessary columns
 
 data['image'] = data['image'].apply(lambda x: x[:,:,0]) #Re-shape
