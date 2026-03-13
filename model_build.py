@@ -6,42 +6,50 @@
 from data_preparation import export_data
 # Need X_train and y_train to determine input/output layer shapes
 X_train, X_val, X_test, y_train, y_val, y_test = export_data() 
+# input_shape=X_train[0].shape for CNN input layer 
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization, GlobalAveragePooling2D
 
-# Tuned model 1 (trained model 3):
 
 model = Sequential([
-    Conv2D(32, (3,3), padding="same", activation="relu", input_shape=X_train[0].shape),
+    # Model taken from 'Reyes and Sanchez. Heliyon 10 (2024)'. More parameters than previous models.
+    # Block 1
+    Conv2D(64, (3, 3), activation="relu", padding="same", input_shape=X_train[0].shape),
+    MaxPooling2D(pool_size=(2, 2)),
     BatchNormalization(),
-    Conv2D(32, (3,3), padding="same", activation="relu"),
-    MaxPooling2D((2,2)),
-    Dropout(0.25),
 
-    Conv2D(64, (3,3), padding="same", activation="relu"),
+    # Block 2
+    Conv2D(128, (3, 3), activation="relu", padding="same"),
+    MaxPooling2D(pool_size=(2, 2)),
     BatchNormalization(),
-    Conv2D(64, (3,3), padding="same", activation="relu"),
-    MaxPooling2D((2,2)),
-    Dropout(0.25),
 
-    Conv2D(128, (3,3), padding="same", activation="relu"),
+    # Block 3
+    Conv2D(256, (3, 3), activation="relu", padding="same"),
+    MaxPooling2D(pool_size=(2, 2)),
     BatchNormalization(),
-    Conv2D(128, (3,3), padding="same", activation="relu"),
-    MaxPooling2D((2,2)),
-    Dropout(0.3),
 
-    GlobalAveragePooling2D(),
-    Dense(128, activation="relu"),
+    # Block 4
+    Conv2D(256, (3, 3), activation="relu", padding="same"),
+    MaxPooling2D(pool_size=(2, 2)),
     BatchNormalization(),
+
+    # Block 5
+    Conv2D(512, (3, 3), activation="relu", padding="same"),
+    MaxPooling2D(pool_size=(2, 2)),
+    BatchNormalization(),
+
+    # Output block
+    Flatten(),
+    Dense(512, activation="relu"),
     Dropout(0.5),
     Dense(4, activation="softmax")
 ])
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
-    loss="categorical_crossentropy",
+    loss="categorical_crossentropy", #Good for One-Hot encoded labels.
     metrics=["accuracy"]
 )
 
