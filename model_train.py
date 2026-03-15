@@ -33,16 +33,16 @@ model.summary()
 
 trained_model = model.fit(datagen.flow(X_train, y_train, batch_size=32, shuffle = True), 
                             #callback=callbacks
-                            epochs=60,
+                            epochs=100,
                             validation_data=(X_val, y_val))
 
 training_history = trained_model
 
 # Saving the model and its history
-save_model_path = "models/large_model_da_1e4_60epoch_1.keras"
+save_model_path = "models/large_model_da_1e5_100epoch_1.keras"
 save_model(save_model_path,model) # We save the whole model as trained_model created by model.fit() is only a history object.
 
-save_history_path = "models/history/large_model_da_1e4_60epoch_1.pkl"
+save_history_path = "models/history/large_model_da_1e5_100epoch_1.pkl"
 save_history(save_history_path,training_history)
 
 

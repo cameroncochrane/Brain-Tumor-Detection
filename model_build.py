@@ -48,7 +48,7 @@ model = Sequential([
 ])
 
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
     loss="categorical_crossentropy", #Good for One-Hot encoded labels.
     metrics=["accuracy"]
 )
