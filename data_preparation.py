@@ -26,6 +26,7 @@ data['image'] = data['image'].apply(lambda x: x[:,:,0]) #Re-shape
 # 1) Train-test-val split:
 X = data['image']
 y = data['label']
+unique_labels = y.unique()
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3, stratify=y, random_state=13) # Create train and test sets.
 X_train, X_val, y_train, y_val = train_test_split(X_train,y_train,test_size=0.1, stratify=y_train, random_state=13) # Create val set from train sets.
 
@@ -78,7 +79,7 @@ print(X_train)
 
 def export_data():
 	# Export train, val and test data to be used in external scripts
-	return X_train, X_val, X_test, y_train, y_val, y_test
+	return X_train, X_val, X_test, y_train, y_val, y_test, class_names
 
 def export_datagen():
 	# Export the fitted image datagen that may be needed during model training.

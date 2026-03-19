@@ -5,7 +5,7 @@
 # Load the prepared/processed data from data_preparation:
 from data_preparation import export_data
 # Need X_train and y_train to determine input/output layer shapes
-X_train, X_val, X_test, y_train, y_val, y_test = export_data() 
+X_train, X_val, X_test, y_train, y_val, y_test, unique_labels = export_data() 
 # input_shape=X_train[0].shape for CNN input layer 
 
 import tensorflow as tf
@@ -48,7 +48,7 @@ model = Sequential([
 ])
 
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-6),
     loss="categorical_crossentropy", #Good for One-Hot encoded labels.
     metrics=["accuracy"]
 )
