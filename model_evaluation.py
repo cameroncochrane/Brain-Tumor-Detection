@@ -12,10 +12,11 @@ X_train, X_val, X_test, y_train, y_val, y_test, unique_labels = export_data()
 
 # Leave this list empty to compare every matched .keras/.pkl pair.
 # Add explicit model stems to compare only specific runs.
-SELECTED_MODEL_STEMS = ['large_model_da_1e4_100epoch_1','large_model_da_1e5_100epoch_1']
+SELECTED_MODEL_STEMS = ['large_model_da_rlrp_1e4_100epoch_1','large_model_da_rlrp_1e4_es_100epoch_1']
 
 
 def discover_model_history_pairs(models_dir="models", histories_dir="models/history", selected_stems=None):
+
 	model_root = Path(models_dir)
 	history_root = Path(histories_dir)
 

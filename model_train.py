@@ -21,33 +21,36 @@ X_train, X_val, X_test, y_train, y_val, y_test, unique_labels = export_data()
 import tensorflow
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
-# callbacks = [
-    # EarlyStopping(monitor="val_loss", patience=8, restore_best_weights=True),
-    #ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, verbose=1),
-#]
+callbacks = [
+    EarlyStopping(monitor="val_loss", patience=20, restore_best_weights=True),
+    ReduceLROnPlateau(monitor="val_loss",
+                      factor=0.1, #How much the LR is reduced each time
+                      patience=8,
+                      verbose=1)
+]
 
 model = export_model()
 datagen = export_datagen()
 
 model.summary()
 
-trained_model = model.fit(datagen.flow(X_train, y_train, batch_size=32, shuffle = True), 
-                            #callback=callbacks
-                            epochs=45,
+trained_model = model.fit(datagen.flow(X_train, y_train, batch_size=32, shuffle=True), 
+                            callbacks=callbacks,
+                            epochs=100,
                             validation_data=(X_val, y_val))
 
 training_history = trained_model
 
 # Saving the model and its history
-save_model_path = "models/large_model_da_1e6_45epoch_1.keras"
+save_model_path = "models/large_model_da_rlrp_1e4_es_100epoch_1.keras"
 save_model(save_model_path,model) # We save the whole model as trained_model created by model.fit() is only a history object.
 
-save_history_path = "models/history/large_model_da_1e6_45epoch_1.pkl"
+save_history_path = "models/history/large_model_da_rlrp_1e4_es_100epoch_1.pkl"
 save_history(save_history_path,training_history)
 
 
 # If model has any of the following, the abbreviation used in the name:
-# - ReduceLearningRateOnPlateau = rlrp
+# - ReduceLearningRateOnPlateau = rlrp. Initial learning rate is given if rlrp is used.
 # - If no rlrp is shown, the learning rate is shown as e.g. 1e4 = 1x10-4
 # - Data Augmentation = da
 # - Early Stopping = es
